@@ -1,9 +1,5 @@
 on early-init
     wait /dev/.coldboot_done 1000
-
-on init
-	export PATH /sbin:/system/bin
-	mount ext4 /emmc@android /system wait commit=1,noauto_da_alloc
 	
 on fs
     setprop vendor.usb.vid "0x18D1"
@@ -52,8 +48,7 @@ on fs
     setprop vendor.usb.acm_enable 0
     setprop vendor.usb.clear boot
     setprop persist.adb.notify 0
-    service adbd /sbin/adbd recovery
-    start adbd
+    setprop sys.usb.config "adb"
 
 on post-fs-data
     chown radio system /sys/class/usb_rawbulk/data/enable
