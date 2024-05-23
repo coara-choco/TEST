@@ -1,10 +1,14 @@
-on init
-    mount configfs none /config nodev noexec nosuid
-    chmod 0770 /config/sdcardfs
-    chown system package_info /config/sdcardfs
+on early-init
+    wait /dev/.coldboot_done 1000
 
+on init
+	export PATH /sbin:/system/bin
+	mount ext4 /emmc@android /system wait commit=1,noauto_da_alloc
+	
 on fs
     setprop vendor.usb.vid "0x18D1"
+    mkdir /config
+    mount configfs none /config
     mkdir /dev/usb-ffs 0770 shell shell
     mkdir /dev/usb-ffs/adb 0770 shell shell
     mkdir /config/usb_gadget/g1 0770 shell shell
@@ -47,6 +51,9 @@ on fs
     setprop vendor.usb.temp ""
     setprop vendor.usb.acm_enable 0
     setprop vendor.usb.clear boot
+    setprop persist.adb.notify 0
+    service adbd /sbin/adbd recovery
+    start adbd
 
 on post-fs-data
     chown radio system /sys/class/usb_rawbulk/data/enable
@@ -280,5 +287,4 @@ property:vendor.usb.acm_enable=0 && property:sys.usb.configfs=1
     setprop sys.usb.state ${sys.usb.config}
 
 on fs
-    mkdir /dev/block/platform/mtk-msdc.0
     symlink /dev/block/platform/soc/11230000.mmc /dev/block/platform/bootdevice
