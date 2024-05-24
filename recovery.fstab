@@ -14,7 +14,6 @@ auto                   vfat     /devices/platform/soc/11190000.usb*             
 auto                   vfat     /devices/platform/soc/mt_usb*                       flags=display=auto
 auto                   vfat     /devices/platform/soc/11201000.usb*                 flags=display=auto
 /external_sd           auto     /dev/block/mmcblk1p1       /dev/block/mmcblk1       flags=storage;removable
-/adopted_sd            auto     /dev/block/platform/soc/11240000.mmc/by-name/android_expand   /dev/block/mmcblk1        flags=display="sdcard";ignoreblkid;storage;removable;fsflags=noatime,nosuid,nodev
 /nvram                 emmc     /dev/block/platform/bootdevice/by-name/nvram        flags=backup=1
 /proinfo               emmc     /dev/block/platform/bootdevice/by-name/proinfo      flags=backup=1
 /bootloader            emmc     /dev/block/platform/bootdevice/by-name/lk           flags=backup=1
